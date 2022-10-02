@@ -5,7 +5,7 @@ from sklearn.model_selection._split import _BaseKFold, indexable, _num_samples
 from sklearn.utils.validation import _deprecate_positional_args
 
 
-def target_generation(df):
+def target_generation(df, name='delta_orders_cnt'):
     """
     Creates dataframe with generated targets - daily order counts
     for next 7 days
@@ -16,7 +16,7 @@ def target_generation(df):
     """
     df_ = df.copy()
     for i in range(0, 7):
-        df_['Target_{}'.format(i)] = df_['orders_cnt'].shift(-i-1)
+        df_['Target_{}'.format(i)] = df_[name].shift(-i-1)
     df_.dropna(inplace=True)
     for i in range(0, 7):
         df_['Target_{}'.format(i)] = df_['Target_{}'.format(i)].astype(int)
